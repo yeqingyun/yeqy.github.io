@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://ilovejava.cn/posts/177574ba/</loc>
+    
+    <lastmod>2017-08-11T10:39:32.972Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://ilovejava.cn/404.html</loc>
     
     <lastmod>2017-08-11T09:56:29.993Z</lastmod>
@@ -33,13 +40,6 @@
     <loc>http://ilovejava.cn/about/index.html</loc>
     
     <lastmod>2017-08-11T06:53:53.662Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://ilovejava.cn/posts/177574ba/</loc>
-    
-    <lastmod>2017-08-10T09:54:09.453Z</lastmod>
     
   </url>
   
