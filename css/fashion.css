@@ -1169,7 +1169,7 @@ ul.widget-tab-nav {
 
 .site-header-image {
 	max-height:800px; 
-	min-height:500px; 
+	min-height:200px; 
 	overflow: hidden;
 	position: relative;
 }
