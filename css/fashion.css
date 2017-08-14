@@ -410,6 +410,7 @@ object {
 	}
 
 #main-navigation {
+	margin-top: 5px;
 	border: solid #333;
 	border-width: 1px 0 3px;
 	}
