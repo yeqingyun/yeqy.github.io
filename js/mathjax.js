@@ -1,1 +1,53 @@
-!function(){var r="http://cdn.bootcss.com/mathjax/2.7.1/MathJax.js",t="http://cdn.bootcss.com/mathjax/2.7.1/latest.js",e=function(t,e){var n=document.createElement("script");for(n.src=r+e.replace(/.*?(\?|$)/,"$1"),n.onload=t.onload,n.onerror=t.onerror,t.onload=t.onerror=null;t.firstChild;)n.appendChild(t.firstChild);null!=t.id&&(n.id=t.id),t.parentNode.replaceChild(n,t),console.warn("WARNING: cdn.mathjax.org has been retired. Check https://www.mathjax.org/cdn-shutting-down/ for migration tips.")};if(document.currentScript){var n=document.currentScript;e(n,n.src)}else for(var o=t.length,a=document.getElementsByTagName("script"),c=0;c<a.length;c++){var n=a[c],s=(n.src||"").replace(/.*?:\/\//,"");if(s.substr(0,o)===t){e(n,s);break}}}();
+(function () {
+  var newMathJax = 'http://cdn.bootcss.com/mathjax/2.7.1/MathJax.js';
+  var oldMathJax = 'http://cdn.bootcss.com/mathjax/2.7.1/latest.js';
+
+  var replaceScript = function (script, src) {
+    //
+    //  Make redirected script
+    //
+    var newScript = document.createElement('script');
+    newScript.src = newMathJax + src.replace(/.*?(\?|$)/, '$1');
+    //
+    //  Move onload and onerror handlers to new script
+    //
+    newScript.onload = script.onload; 
+    newScript.onerror = script.onerror;
+    script.onload = script.onerror = null;
+    //
+    //  Move any content (old-style configuration scripts)
+    //
+    while (script.firstChild) newScript.appendChild(script.firstChild);
+    //
+    //  Copy script id
+    //
+    if (script.id != null) newScript.id = script.id;
+    //
+    //  Replace original script with new one
+    //
+    script.parentNode.replaceChild(newScript, script);
+    //
+    //  Issue a console warning
+    //
+    console.warn('WARNING: cdn.mathjax.org has been retired. Check https://www.mathjax.org/cdn-shutting-down/ for migration tips.')
+  }
+
+  if (document.currentScript) {
+    var script = document.currentScript;
+    replaceScript(script, script.src);
+  } else {
+    //
+    // Look for current script by searching for one with the right source
+    //
+    var n = oldMathJax.length;
+    var scripts = document.getElementsByTagName('script');
+    for (var i = 0; i < scripts.length; i++) {
+      var script = scripts[i];
+      var src = (script.src || '').replace(/.*?:\/\//,'');
+      if (src.substr(0, n) === oldMathJax) {
+        replaceScript(script, src);
+        break;
+      }
+    }
+  }
+})();
