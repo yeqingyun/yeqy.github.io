@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://ilovejava.cn/about/index.html</loc>
+    
+    <lastmod>2017-08-15T08:29:41.498Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://ilovejava.cn/posts/177574ba/</loc>
     
-    <lastmod>2017-08-15T05:40:17.775Z</lastmod>
+    <lastmod>2017-08-15T08:18:18.619Z</lastmod>
     
   </url>
   
@@ -19,13 +26,6 @@
     <loc>http://ilovejava.cn/categories/index.html</loc>
     
     <lastmod>2017-08-15T01:31:27.241Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://ilovejava.cn/about/index.html</loc>
-    
-    <lastmod>2017-08-15T01:31:14.763Z</lastmod>
     
   </url>
   
