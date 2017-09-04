@@ -992,6 +992,29 @@ a.article-title:hover {
 .nav-child {
   margin-left: 1em;
 }
+.my_post_copyright {
+  width: 100%;
+  margin: 2.8em auto 0;
+  padding: 0.5em 1em;
+  border: 1px solid #d3d3d3;
+  line-height: 1.6em;
+  word-break: break-all;
+  background: rgba(255,255,255,0.4);
+}
+.my_post_copyright span {
+  display: inline-block;
+  width: 5.2em;
+  color: #b5b5b5;
+  font-weight: 700;
+}
+.my_post_copyright a {
+  color: #808080;
+  border-bottom: 0;
+}
+.my_post_copyright a:hover {
+  color: #1fa0ae;
+  border-bottom: 0;
+}
 #comments {
   padding: 20px;
   margin: 50px 0;
