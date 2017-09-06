@@ -21,7 +21,7 @@
 <meta property="og:site_name" content="一些">
 <meta property="og:description" content="简介此文章适合有一定javascript基础的同学用来巩固和深入javascript知识的文章。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-09-04T03:40:21.101Z">
+<meta property="og:updated_time" content="2017-09-06T07:06:21.496Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深入浅出javascript(一)">
 <meta name="twitter:description" content="简介此文章适合有一定javascript基础的同学用来巩固和深入javascript知识的文章。">
@@ -168,23 +168,11 @@
 <li>undefined</li>
 <li>Object  </li>
 </ul>
-<p>因为js中定义变量不需要指定类型，所以数据在一些操作符和运算符之间存在着隐式转换，例如：  </p>
-<pre><code>var a = 11;  
-console.log(a + &quot;22&quot;)//结果是1122 变量a被隐式转换为字符串
-console.log(a - &apos;10&apos;)//结果是1 字符10被隐式转换为数字
-console.log(a - true)//结果是10 布尔值true被隐式转换为数字1  
-</code></pre><p>正因为存在这些隐式转换的逻辑，我们可以利用它巧妙的进行类型转换，数字转字符只要加上一个空字符串，字符转数字只要减去0等等方法。在进行判断操作时同样存在着隐式转换，例如：  </p>
-<pre><code>if(1 == &quot;1&quot;)  
-    console.log(&quot; 1 = &apos;1&apos;&quot;)//结果是true，会输出1 = &apos;1&apos;
-if(false == 0 )
-    console.log(&quot; false = 0 &quot;)//结果是true，会输出false = 0  
-</code></pre><p>但有些时候我们希望1等于”1”是false，这个时候我们就需要用到 ‘===’，’===’在’==’的基础之上添加了类型判断，即判断值之前首先会判断左右两边的类型，如果不同则直接返回false，类型相同才会去判断值。这里值得一提的是六种数据类型中的Object用’===’和’==’判断时，判断用到的值是该对象存储的内存地址（所以判断Object的值一般不使用这两个，判断方法后面会说道）。<br>javascript中还存在着一些包装类型，包装类型并不是一种类型，可以把它理解为基础类型的包装。number类型的包装类型是Number，string类型的包装类型是String，boolean类型的包装类型是Boolean。在对基础类型进行对象操作时，js会自动创建一个相应包装类型对象供你操作，当操作结束后，该对象将会销毁（代码如下）。为什么存在包装类型呢？是为了给基础类型提供更加便捷的操作，普通类型可以直接调用包装类型中的方法，不觉得很方便吗？  </p>
-<pre><code>var a = &quot;abc&quot;
-console.log(a.length)//创建一个String对象
-a.id = 1
-console.log(a.id)//undefined 因为包装类型已经销毁
-console.log((123).toString())// &quot;123&quot;  
-</code></pre><h3 id="类型检测"><a href="#类型检测" class="headerlink" title="类型检测"></a>类型检测</h3><p>js中检测类型的方法有多种，如下  </p>
+<p>因为js中定义变量不需要指定类型，所以数据在一些操作符和运算符之间存在着隐式转换，例如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = <span class="number">11</span>;  </div><div class="line"><span class="built_in">console</span>.log(a + <span class="string">"22"</span>)<span class="comment">//结果是1122 变量a被隐式转换为字符串</span></div><div class="line"><span class="built_in">console</span>.log(a - <span class="string">'10'</span>)<span class="comment">//结果是1 字符10被隐式转换为数字</span></div><div class="line"><span class="built_in">console</span>.log(a - <span class="literal">true</span>)<span class="comment">//结果是10 布尔值true被隐式转换为数字1</span></div></pre></td></tr></table></figure></p>
+<p>正因为存在这些隐式转换的逻辑，我们可以利用它巧妙的进行类型转换，数字转字符只要加上一个空字符串，字符转数字只要减去0等等方法。在进行判断操作时同样存在着隐式转换，例如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span>(<span class="number">1</span> == <span class="string">"1"</span>)  </div><div class="line">    <span class="built_in">console</span>.log(<span class="string">" 1 = '1'"</span>)<span class="comment">//结果是true，会输出1 = '1'</span></div><div class="line"><span class="keyword">if</span>(<span class="literal">false</span> == <span class="number">0</span> )</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">" false = 0 "</span>)<span class="comment">//结果是true，会输出false = 0</span></div></pre></td></tr></table></figure></p>
+<p>　　但有些时候我们希望1等于”1”是false，这个时候我们就需要用到 <code>===</code>，<code>===</code>在<code>==</code>的基础之上添加了类型判断，即判断值之前首先会判断左右两边的类型，如果不同则直接返回false，类型相同才会去判断值。这里值得一提的是六种数据类型中的Object用 <code>===</code> 和<code>==</code>判断时，判断用到的值是该对象存储的内存地址（所以判断Object的值一般不使用这两个，判断方法后面会说道）。<br>　　javascript中还存在着一些包装类型，包装类型并不是一种类型，可以把它理解为基础类型的包装，number类型的包装类型是Number，string类型的包装类型是String，boolean类型的包装类型是Boolean。在对基础类型进行对象操作时，js会自动创建一个相应包装类型对象供你操作，当操作结束后，该对象将会销毁（代码如下）。为什么存在包装类型呢？是为了给基础类型提供更加便捷的操作，普通类型可以直接调用包装类型中的方法，不觉得很方便吗？  </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = <span class="string">"abc"</span></div><div class="line"><span class="built_in">console</span>.log(a.length)<span class="comment">//创建一个String对象</span></div><div class="line">a.id = <span class="number">1</span></div><div class="line"><span class="built_in">console</span>.log(a.id)<span class="comment">//undefined 因为包装类型已经销毁</span></div><div class="line"><span class="built_in">console</span>.log((<span class="number">123</span>).toString())<span class="comment">// "123"</span></div></pre></td></tr></table></figure>
+<h3 id="类型检测"><a href="#类型检测" class="headerlink" title="类型检测"></a>类型检测</h3><p>js中检测类型的方法有多种，如下  </p>
 <ul>
 <li>typeof</li>
 <li>instanceof</li>
@@ -195,20 +183,22 @@ console.log((123).toString())// &quot;123&quot;
 <ol>
 <li><p>typeof运算符判断类型的用法是typeof 100，typeof后面接着数据这种的用法，返回结果是字符串，数字返回’number’，布尔返回’boolean’，undefined返回的是’undefined’，function和Objct返回’function’…这里就不一一列举了，同学们可以到控制台尝试一下。这里需要注意的是typeof [0,1]返回的是Object,typeof NaN 返回的是’number’，typeof null 返回的是’object’，所以在使用typeof检测数组,NaN和null时要特别注意。  </p>
 </li>
-<li><p>instanceof是一个基于原型链判断类型的操作符，如果不了解原型链的同学，这里可以不必强行理解，只要记住这个概念就行了，后面的文章会仔细介绍原型链。instanceOf用来检测对象的类型，如obj instanceof Object，若obj是基本类型，则会直接返回false，若Object不是函数或者函数构造器，则会抛出一个TypeError异常。instaceof检测的过程是先判断obj.__proto__(__proto__是在chrome浏览器暴露出来的一个属性，用以描述对象的原型，也可以使用Object.getPrototypeOf)是否等于Object.prototype,如果相等，则返回true，如果不等则继续向上查找，obj.__proto__.__proto__是否等于Object.prototype，以此类推，直到找到相等的，返回true，若寻找完整条原型链都不想等，则返回false。  </p>
+<li><p>instanceof是一个基于原型链判断类型的操作符，如果不了解原型链的同学，这里可以不必强行理解，只要记住这个概念就行了，后面的文章会仔细介绍原型链。instanceOf用来检测对象的类型，如obj instanceof Object，若obj是基本类型，则会直接返回false，若Object不是函数或者函数构造器，则会抛出一个TypeError异常。instaceof检测的过程是先判断<code>obj.__proto__</code>(<code>__proto__</code>是在chrome浏览器暴露出来的一个属性，用以描述对象的原型，也可以使用Object.getPrototypeOf)是否等于Object.prototype,如果相等，则返回true，如果不等则继续向上查找，<code>obj.__proto__.__proto__</code>是否等于Object.prototype，以此类推，直到找到相等的，返回true，若寻找完整条原型链都不想等，则返回false。  </p>
 </li>
 <li><p>Object.prototype.toString.apply(obj)既可以判断基础类型，也可以判断对象类型。判断的返回值是字符串，数组类型返回’[object Array]’，数字类型返回’[object Number]’，函数类型返回’[object Function]’，其他的同学们可以去尝试一下。这里值得注意的是用此方法判断undefined会返回’[object Undefined]’，判断null会返回’[object Null]’，而在IE6/7/8下，判断null则是返回’[object Object]’。  </p>
 </li>
 <li><p>constructor是用来检测对象类型的，通过对象__proto__属性上的constructor判断，注意constructor是可以修改的，所以此方式检测的结果不一定正确，可结合其他检测方式来保证结果正确性，示例如下：  </p>
-<p>var a = new Number(1);<br>a.constructor == Number?console.log(“a是Number类型”):console.log(“a不是Number类型”)//结果输出是a是Number类型   </p>
-</li>
-<li><p>duck type –“当看到一只鸟走起来像鸭子、游泳起来像鸭子、叫起来也像鸭子，那么这只鸟就可以被称为鸭子。” 通过检测对象是否具体的属性来判断其类型，当然存在着很大的风险（恰巧拥有同样的属性），如Object的isArray方法：  </p>
-<p>isArray: function(object) { </p>
-<pre><code>return object != null &amp;&amp; typeof object == &quot;object&quot; &amp;&amp; 
-&apos;splice&apos; in object &amp;&amp; &apos;join&apos; in object; 
-</code></pre><p>}  </p>
 </li>
 </ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> <span class="built_in">Number</span>(<span class="number">1</span>);</div><div class="line">a.constructor == <span class="built_in">Number</span>?<span class="built_in">console</span>.log(<span class="string">"a是Number类型"</span>):<span class="built_in">console</span>.log(<span class="string">"a不是Number类型"</span>)<span class="comment">//结果输出是a是Number类型</span></div></pre></td></tr></table></figure>
+<ol>
+<li>duck type –“当看到一只鸟走起来像鸭子、游泳起来像鸭子、叫起来也像鸭子，那么这只鸟就可以被称为鸭子。” 通过检测对象是否具体的属性来判断其类型，当然存在着很大的风险（恰巧拥有同样的属性），如Object的isArray方法：  </li>
+</ol>
+<pre><code class="javascript">isArray: <span class="function"><span class="keyword">function</span>(<span class="params">object</span>) </span>{ 
+    <span class="keyword">return</span> object != <span class="literal">null</span> &amp;&amp; <span class="keyword">typeof</span> object == <span class="string">"object"</span> &amp;&amp; 
+    <span class="string">'splice'</span> <span class="keyword">in</span> object &amp;&amp; <span class="string">'join'</span> <span class="keyword">in</span> object; 
+}
+</code></pre>
 <p>综上所述，在判断数据类型时应该按照需求选用方法，如基本类型和function使用typeof，自定义对象和原生对对象使用instanceof，原生对象和iframe之间的对象类型使用Object.prototype.toString，null和undefined用===判断等等…  </p>
 <p>未完待续…</p>
 
@@ -300,9 +290,9 @@ console.log((123).toString())// &quot;123&quot;
     </a>
   
   
-    <a href="/posts/4a17a003/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/posts/4a17a004/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
-      <div class="article-nav-title">最最常用的git command</div>
+      <div class="article-nav-title">Activiti回顾</div>
     </a>
   
 </nav>
@@ -310,16 +300,19 @@ console.log((123).toString())// &quot;123&quot;
   
 </article>
 
-<!-- Table of Contents -->
 
-  <aside id="sidebar">
-    <div id="toc" class="toc-article">
-    <strong class="toc-title">文章目录</strong>
-    
-      <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#六种数据类型"><span class="nav-number">2.</span> <span class="nav-text">六种数据类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类型检测"><span class="nav-number">3.</span> <span class="nav-text">类型检测</span></a></li></ol>
-    
-    </div>
-  </aside>
+
+  <!-- Table of Contents -->
+  
+    <aside id="sidebar">
+      <div id="toc" class="toc-article">
+      <strong class="toc-title">文章目录</strong>
+      
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#六种数据类型"><span class="nav-number">2.</span> <span class="nav-text">六种数据类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类型检测"><span class="nav-number">3.</span> <span class="nav-text">类型检测</span></a></li></ol>
+      
+      </div>
+    </aside>
+  
 
 
 

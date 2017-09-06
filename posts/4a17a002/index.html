@@ -21,7 +21,7 @@
 <meta property="og:site_name" content="一些">
 <meta property="og:description" content="开发游戏不仅能学习算法，也能锻炼人的思维逻辑，提高我们的编程能力，充实我们的问题思考能力和问题解决思路。俄罗斯方块想必大家都玩过，他的游戏逻辑并不复杂，今天我们就来用大家都熟悉的javascript开发一款俄罗斯方块，后续我会写出更多关于游戏开发的文章。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-09-04T10:24:21.565Z">
+<meta property="og:updated_time" content="2017-09-06T07:06:55.312Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="用javascript开发一个俄罗斯方块">
 <meta name="twitter:description" content="开发游戏不仅能学习算法，也能锻炼人的思维逻辑，提高我们的编程能力，充实我们的问题思考能力和问题解决思路。俄罗斯方块想必大家都玩过，他的游戏逻辑并不复杂，今天我们就来用大家都熟悉的javascript开发一款俄罗斯方块，后续我会写出更多关于游戏开发的文章。">
@@ -160,194 +160,165 @@
         <p>开发游戏不仅能学习算法，也能锻炼人的思维逻辑，提高我们的编程能力，充实我们的问题思考能力和问题解决思路。俄罗斯方块想必大家都玩过，他的游戏逻辑并不复杂，今天我们就来用大家都熟悉的javascript开发一款俄罗斯方块，后续我会写出更多关于游戏开发的文章。</p>
 <a id="more"></a>
 <h3 id="开发环境"><a href="#开发环境" class="headerlink" title="开发环境"></a>开发环境</h3><p>es5 + webpack </p>
-<p>本文重点在讲解俄罗斯方块游戏的逻辑，如果不了解webpack的话可以去<a href="https://doc.webpack-china.org/" target="_blank" rel="external">webpack</a>官网查看相关文档，在这里我们不就不赘述了。代码中主要用到都是包括es5之前的语法以及api，因为es6、es7不是本文章的重点。</p>
+<p>本文重点在讲解俄罗斯方块游戏的逻辑，如果不了解webpack的话可以去<a href="https://doc.webpack-china.org/" target="_blank" rel="external">webpack</a>官网查看相关文档，在这里我们不就不赘述了。代码中主要用到都是包括es5之前的语法以及api，因为这样可以让不了解es6和es7的同学也能看懂。</p>
 <h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><p><a href="https://github.com/yeqingyun/Square" target="_blank" rel="external">源码</a>在我的github仓库中，大家可以看一看，代码重点在实现游戏逻辑，大家可以根据自己的需求进行优化。</p>
 <h3 id="在线演示"><a href="#在线演示" class="headerlink" title="在线演示"></a>在线演示</h3><p><a href="../../projects/games/square_1/index.html">俄罗斯方块</a>  </p>
 <h3 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h3><p>好了，开始解释代码吧，由于代码细节较多，在此我只说明一下重要的部分和总的思路。  </p>
-<h4 id="index-html"><a href="#index-html" class="headerlink" title="index.html"></a>index.html</h4><pre><code>&lt;!DOCTYPE html&gt;
-&lt;html lang=&quot;en&quot;&gt;
-
-&lt;head&gt;
-    &lt;meta charset=&quot;UTF-8&quot;&gt;
-    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
-    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;ie=edge&quot;&gt;
-    &lt;title&gt;Square&lt;/title&gt;
-&lt;/head&gt;
-
-&lt;body&gt;
-    &lt;div id=&quot;local_game&quot; class=&quot;game&quot;&gt;&lt;/div&gt;
-    &lt;div id=&quot;local_gameover&quot; class=&quot;gameover&quot;&gt;游戏结束&lt;/div&gt;
-    &lt;div id=&quot;local_next&quot; class=&quot;next&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;info&quot;&gt;
-        &lt;div&gt;已用时:&lt;span id=&quot;local_time&quot;&gt;0&lt;/span&gt;&lt;/div&gt;
-        &lt;div&gt;已得分:&lt;span id=&quot;local_score&quot;&gt;0&lt;/span&gt;&lt;/div&gt;
-        &lt;div class=&quot;btnWarp&quot;&gt;&lt;a href=&quot;javascript:void(0)&quot; id=&quot;local_start&quot; class=&quot;btn&quot;&gt;开始&lt;/a&gt;&lt;/div&gt;
-        &lt;div class=&quot;btnWarp&quot;&gt;&lt;a href=&quot;javascript:void(0)&quot; id=&quot;local_pause&quot; class=&quot;btn&quot;&gt;暂停&lt;/a&gt;&lt;/div&gt;
-        &lt;div class=&quot;btnWarp&quot;&gt;&lt;a href=&quot;javascript:void(0)&quot; id=&quot;local_stop&quot; class=&quot;btn&quot;&gt;结束&lt;/a&gt;&lt;/div&gt;
-        &lt;div class=&quot;introduce&quot;&gt;
-            操作说明：
-            &lt;p&gt;↑：变换 ↓：下落&lt;/p&gt;
-            &lt;p&gt;←：左移 →：右移&lt;/p&gt;
-            &lt;p&gt;空格：坠落&lt;/p&gt;
-        &lt;/div&gt;
-    &lt;/div&gt;
-&lt;/body&gt;
-
-&lt;/html&gt;
-</code></pre><p>这是主页的html代码，俄罗斯方块的所有操作都在这个页面完成，我们的代码也只有这一个html页面。<code>local\_game</code>是显示我们游戏中操作方块的区域，<code>loacl\_gamover</code>是显示游戏结束的隐藏区域，<code>local_next</code>是显示下一个方块的区域。之所以有一个前缀loacl是因为这个游戏后续将会加上与服务器的交互逻辑，这个将在以下篇文章提到，现在可以省略。<br>接下来是业务的实现代码，我们的js分几个模块，下面将解释每个模块的作用</p>
+<h4 id="index-html"><a href="#index-html" class="headerlink" title="index.html"></a>index.html</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"X-UA-Compatible"</span> <span class="attr">content</span>=<span class="string">"ie=edge"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Square<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"local_game"</span> <span class="attr">class</span>=<span class="string">"game"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"local_gameover"</span> <span class="attr">class</span>=<span class="string">"gameover"</span>&gt;</span>游戏结束<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"local_next"</span> <span class="attr">class</span>=<span class="string">"next"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"info"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span>&gt;</span>已用时:<span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">"local_time"</span>&gt;</span>0<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span>&gt;</span>已得分:<span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">"local_score"</span>&gt;</span>0<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"btnWarp"</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"javascript:void(0)"</span> <span class="attr">id</span>=<span class="string">"local_start"</span> <span class="attr">class</span>=<span class="string">"btn"</span>&gt;</span>开始<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"btnWarp"</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"javascript:void(0)"</span> <span class="attr">id</span>=<span class="string">"local_pause"</span> <span class="attr">class</span>=<span class="string">"btn"</span>&gt;</span>暂停<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"btnWarp"</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"javascript:void(0)"</span> <span class="attr">id</span>=<span class="string">"local_stop"</span> <span class="attr">class</span>=<span class="string">"btn"</span>&gt;</span>结束<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"introduce"</span>&gt;</span></div><div class="line">            操作说明：</div><div class="line">            <span class="tag">&lt;<span class="name">p</span>&gt;</span>↑：变换 ↓：下落<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">p</span>&gt;</span>←：左移 →：右移<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">p</span>&gt;</span>空格：坠落<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>这是主页的html代码，俄罗斯方块的所有操作都在这个页面完成，我们的代码也只有这一个html页面。<code>local\_game</code>是显示我们游戏中操作方块的区域，<code>loacl\_gamover</code>是显示游戏结束的隐藏区域，<code>local_next</code>是显示下一个方块的区域。之所以有一个前缀loacl是因为这个游戏后续将会加上与服务器的交互逻辑，这个将在以下篇文章提到，现在可以省略。<br>接下来是业务的实现代码，我们的js分几个模块，下面将解释每个模块的作用</p>
 <h4 id="game-js"><a href="#game-js" class="headerlink" title="game.js"></a>game.js</h4><p>game.js主要是控制方块的数据变化，dom节点的操作。  </p>
-<pre><code>import _ from &apos;lodash&apos;;
-import Square from &quot;./square.js&quot;;
-import SquareFactory from &quot;./squareFactory.js&quot;;
+<pre><code class="javascript"><span class="keyword">import</span> _ <span class="keyword">from</span> <span class="string">'lodash'</span>;
+<span class="keyword">import</span> Square <span class="keyword">from</span> <span class="string">"./square.js"</span>;
+<span class="keyword">import</span> SquareFactory <span class="keyword">from</span> <span class="string">"./squareFactory.js"</span>;
 
-export default function () {
+<span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
 
-    var gameData = [
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    <span class="keyword">var</span> gameData = [
+        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]
     ]
 
-    var dataClass = [
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    <span class="keyword">var</span> dataClass = [
+        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]
     ]
 
 
 
-    var cur, next
-    var gameContainers, nextContainers, timeDiv, gameoverDiv, scoreDiv
-    var gameDivs = [], nextDivs = []
-    //初始化容器
-    var initDiv = function (data, container, divs) {
-        for (var i = 0; i &lt; data.length; i++) {
-            var gameDiv = []
-            for (var j = 0; j &lt; data[0].length; j++) {
-                var newNode = document.createElement(&quot;div&quot;)
-                newNode.className = &apos;none&apos;
+    <span class="keyword">var</span> cur, next
+    <span class="keyword">var</span> gameContainers, nextContainers, timeDiv, gameoverDiv, scoreDiv
+    <span class="keyword">var</span> gameDivs = [], nextDivs = []
+    <span class="comment">//初始化容器</span>
+    <span class="keyword">var</span> initDiv = <span class="function"><span class="keyword">function</span> (<span class="params">data, container, divs</span>) </span>{
+        <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; data.length; i++) {
+            <span class="keyword">var</span> gameDiv = []
+            <span class="keyword">for</span> (<span class="keyword">var</span> j = <span class="number">0</span>; j &lt; data[<span class="number">0</span>].length; j++) {
+                <span class="keyword">var</span> newNode = <span class="built_in">document</span>.createElement(<span class="string">"div"</span>)
+                newNode.className = <span class="string">'none'</span>
                 container.appendChild(newNode)
                 gameDiv.push(newNode)
             }
-            Array.prototype.push.call(divs, gameDiv)
+            <span class="built_in">Array</span>.prototype.push.call(divs, gameDiv)
         }
     }
-    //刷新容器显示
-    var flushDiv = function (data, divs, classes) {
-        for (var i = 0; i &lt; data.length; i++) {
-            for (var j = 0; j &lt; data[0].length; j++) {
-                if (data[i][j] == 0) {
-                    divs[i][j].className = &apos;none&apos;
-                } else {
-                    if (!classes[i][j])
-                        classes[i][j] = &apos;A&apos;
+    <span class="comment">//刷新容器显示</span>
+    <span class="keyword">var</span> flushDiv = <span class="function"><span class="keyword">function</span> (<span class="params">data, divs, classes</span>) </span>{
+        <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; data.length; i++) {
+            <span class="keyword">for</span> (<span class="keyword">var</span> j = <span class="number">0</span>; j &lt; data[<span class="number">0</span>].length; j++) {
+                <span class="keyword">if</span> (data[i][j] == <span class="number">0</span>) {
+                    divs[i][j].className = <span class="string">'none'</span>
+                } <span class="keyword">else</span> {
+                    <span class="keyword">if</span> (!classes[i][j])
+                        classes[i][j] = <span class="string">'A'</span>
                     divs[i][j].className = classes[i][j]
                 }
             }
         }
     }
-    //检测点是否合法
-    var checkPonit = function (pox, x, y) {
-        if (pox.x + x &lt; 0) {
-            return false
-        } else if (pox.x + x &gt;= gameData.length) {
-            return false
-        } else if (pox.y + y &lt; 0) {
-            return false
-        } else if (pox.y + y &gt;= gameData[0].length) {
-            return false
-        } else if (gameData[pox.x + x][pox.y + y] == 1) {
-            return false
+    <span class="comment">//检测点是否合法</span>
+    <span class="keyword">var</span> checkPonit = <span class="function"><span class="keyword">function</span> (<span class="params">pox, x, y</span>) </span>{
+        <span class="keyword">if</span> (pox.x + x &lt; <span class="number">0</span>) {
+            <span class="keyword">return</span> <span class="literal">false</span>
+        } <span class="keyword">else</span> <span class="keyword">if</span> (pox.x + x &gt;= gameData.length) {
+            <span class="keyword">return</span> <span class="literal">false</span>
+        } <span class="keyword">else</span> <span class="keyword">if</span> (pox.y + y &lt; <span class="number">0</span>) {
+            <span class="keyword">return</span> <span class="literal">false</span>
+        } <span class="keyword">else</span> <span class="keyword">if</span> (pox.y + y &gt;= gameData[<span class="number">0</span>].length) {
+            <span class="keyword">return</span> <span class="literal">false</span>
+        } <span class="keyword">else</span> <span class="keyword">if</span> (gameData[pox.x + x][pox.y + y] == <span class="number">1</span>) {
+            <span class="keyword">return</span> <span class="literal">false</span>
         }
-        return true
+        <span class="keyword">return</span> <span class="literal">true</span>
     }
-    //监测数据是否合法
-    var valid = function (pos, data) {
-        for (var i = 0; i &lt; data.length; i++) {
-            for (var j = 0; j &lt; data[0].length; j++) {
-                if (data[i][j] != 0) {
-                    if (!checkPonit(pos, i, j)) {
-                        return false;
+    <span class="comment">//监测数据是否合法</span>
+    <span class="keyword">var</span> valid = <span class="function"><span class="keyword">function</span> (<span class="params">pos, data</span>) </span>{
+        <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; data.length; i++) {
+            <span class="keyword">for</span> (<span class="keyword">var</span> j = <span class="number">0</span>; j &lt; data[<span class="number">0</span>].length; j++) {
+                <span class="keyword">if</span> (data[i][j] != <span class="number">0</span>) {
+                    <span class="keyword">if</span> (!checkPonit(pos, i, j)) {
+                        <span class="keyword">return</span> <span class="literal">false</span>;
                     }
                 }
             }
         }
-        return true;
+        <span class="keyword">return</span> <span class="literal">true</span>;
     }
 
-    //设置数据
-    var setData = function () {
-        for (var i = 0; i &lt; cur.data.length; i++) {
-            for (var j = 0; j &lt; cur.data[0].length; j++) {
-                if (checkPonit(cur.orgin, i, j)) {
+    <span class="comment">//设置数据</span>
+    <span class="keyword">var</span> setData = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
+        <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; cur.data.length; i++) {
+            <span class="keyword">for</span> (<span class="keyword">var</span> j = <span class="number">0</span>; j &lt; cur.data[<span class="number">0</span>].length; j++) {
+                <span class="keyword">if</span> (checkPonit(cur.orgin, i, j)) {
                     gameData[i + cur.orgin.x][j + cur.orgin.y] = cur.data[i][j]
                     dataClass[i + cur.orgin.x][j + cur.orgin.y] = cur.class
                 }
             }
         }
     }
-    //清除数据
-    var clearData = function () {
-        for (var i = 0; i &lt; cur.data.length; i++) {
-            for (var j = 0; j &lt; cur.data[0].length; j++) {
-                if (checkPonit(cur.orgin, i, j)) {
-                    gameData[cur.orgin.x + i][cur.orgin.y + j] = 0
-                    dataClass[i + cur.orgin.x][j + cur.orgin.y] = &apos;none&apos;
+    <span class="comment">//清除数据</span>
+    <span class="keyword">var</span> clearData = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
+        <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; cur.data.length; i++) {
+            <span class="keyword">for</span> (<span class="keyword">var</span> j = <span class="number">0</span>; j &lt; cur.data[<span class="number">0</span>].length; j++) {
+                <span class="keyword">if</span> (checkPonit(cur.orgin, i, j)) {
+                    gameData[cur.orgin.x + i][cur.orgin.y + j] = <span class="number">0</span>
+                    dataClass[i + cur.orgin.x][j + cur.orgin.y] = <span class="string">'none'</span>
                 }
             }
         }
     }
 
-    var setTime = function (data) {
-        if (timeDiv) {
+    <span class="keyword">var</span> setTime = <span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>{
+        <span class="keyword">if</span> (timeDiv) {
             timeDiv.innerText = data
         }
     }
 
-    var showGameOver = function () {
-        gameoverDiv.style.display = &apos;block&apos;
+    <span class="keyword">var</span> showGameOver = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
+        gameoverDiv.style.display = <span class="string">'block'</span>
     }
 
-    var clearGameOver = function () {
-        gameoverDiv.style.display = &apos;none&apos;
+    <span class="keyword">var</span> clearGameOver = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
+        gameoverDiv.style.display = <span class="string">'none'</span>
     }
 
-    //初始化数据
-    var init = function (dom, type, dir) {
+    <span class="comment">//初始化数据</span>
+    <span class="keyword">var</span> init = <span class="function"><span class="keyword">function</span> (<span class="params">dom, type, dir</span>) </span>{
         next = SquareFactory.prototype.make(type, dir)
         gameContainers = dom.gameContainers
         nextContainers = dom.nextContainers
@@ -359,13 +330,13 @@ export default function () {
         flushDiv(next.data, nextDivs, next.classData)
     }
 
-    //固定变色
-    var fixed = function () {
-        for (var i = 0; i &lt; gameData.length; i++) {
-            for (var j = 0; j &lt; gameData[0].length; j++) {
-                if (checkPonit(cur.orgin, i, j)) {
-                    if (gameData[cur.orgin.x + i][cur.orgin.y + j] == 2) {
-                        gameData[cur.orgin.x + i][cur.orgin.y + j] = 1
+    <span class="comment">//固定变色</span>
+    <span class="keyword">var</span> fixed = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
+        <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; gameData.length; i++) {
+            <span class="keyword">for</span> (<span class="keyword">var</span> j = <span class="number">0</span>; j &lt; gameData[<span class="number">0</span>].length; j++) {
+                <span class="keyword">if</span> (checkPonit(cur.orgin, i, j)) {
+                    <span class="keyword">if</span> (gameData[cur.orgin.x + i][cur.orgin.y + j] == <span class="number">2</span>) {
+                        gameData[cur.orgin.x + i][cur.orgin.y + j] = <span class="number">1</span>
                     }
                 }
             }
@@ -373,48 +344,48 @@ export default function () {
         flushDiv(gameData, gameDivs, dataClass)
     }
 
-    var setScore = function (data) {
-        if (scoreDiv)
+    <span class="keyword">var</span> setScore = <span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>{
+        <span class="keyword">if</span> (scoreDiv)
             scoreDiv.innerText = data
     }
 
 
-    var checkClear = function () {
-        var lines = 0
-        function check(data) {
-            return data == 1
+    <span class="keyword">var</span> checkClear = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
+        <span class="keyword">var</span> lines = <span class="number">0</span>
+        <span class="function"><span class="keyword">function</span> <span class="title">check</span>(<span class="params">data</span>) </span>{
+            <span class="keyword">return</span> data == <span class="number">1</span>
         }
-        for (var i = gameData.length - 1; i &gt;= 0; i--) {
-            var flag = gameData[i].every(check)
+        <span class="keyword">for</span> (<span class="keyword">var</span> i = gameData.length - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) {
+            <span class="keyword">var</span> flag = gameData[i].every(check)
 
-            if (flag) {
+            <span class="keyword">if</span> (flag) {
                 lines++
-                for (var k = i; k &gt;= 1; k--) {
-                    gameData[k] = (gameData[k - 1]).slice(0)
-                    dataClass[k] = (dataClass[k - 1]).slice(0)
+                <span class="keyword">for</span> (<span class="keyword">var</span> k = i; k &gt;= <span class="number">1</span>; k--) {
+                    gameData[k] = (gameData[k - <span class="number">1</span>]).slice(<span class="number">0</span>)
+                    dataClass[k] = (dataClass[k - <span class="number">1</span>]).slice(<span class="number">0</span>)
                 }
-                gameData[0] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-                dataClass[0] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                gameData[<span class="number">0</span>] = [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]
+                dataClass[<span class="number">0</span>] = [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]
                 i++
             }
         }
-        return lines
+        <span class="keyword">return</span> lines
 
     }
 
-    var checkGameOver = function () {
-        if (gameData[0][3] == 1 || gameData[0][4] == 1 || gameData[0][2] == 1 || gameData[0][5] == 1) {//如果原点被占用
-            return true
+    <span class="keyword">var</span> checkGameOver = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
+        <span class="keyword">if</span> (gameData[<span class="number">0</span>][<span class="number">3</span>] == <span class="number">1</span> || gameData[<span class="number">0</span>][<span class="number">4</span>] == <span class="number">1</span> || gameData[<span class="number">0</span>][<span class="number">2</span>] == <span class="number">1</span> || gameData[<span class="number">0</span>][<span class="number">5</span>] == <span class="number">1</span>) {<span class="comment">//如果原点被占用</span>
+            <span class="keyword">return</span> <span class="literal">true</span>
         }
-        if (!valid(next.orgin, next.data)) {
-            return true
+        <span class="keyword">if</span> (!valid(next.orgin, next.data)) {
+            <span class="keyword">return</span> <span class="literal">true</span>
         }
 
 
-        return false;
+        <span class="keyword">return</span> <span class="literal">false</span>;
     }
 
-    var nextSquare = function (type, dir) {
+    <span class="keyword">var</span> nextSquare = <span class="function"><span class="keyword">function</span> (<span class="params">type, dir</span>) </span>{
         cur = next
         setData()
         next = SquareFactory.prototype.make(type, dir)
@@ -423,10 +394,10 @@ export default function () {
         flushDiv(next.data, nextDivs, next.classData)
     }
 
-    var initSquareClassData = function (squ) {
-        for (var i = 0; i &lt; squ.data.length; i++) {
-            for (var j = 0; j &lt; squ.data[0].length; j++) {
-                if (squ.data[i][j] != 0) {
+    <span class="keyword">var</span> initSquareClassData = <span class="function"><span class="keyword">function</span> (<span class="params">squ</span>) </span>{
+        <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; squ.data.length; i++) {
+            <span class="keyword">for</span> (<span class="keyword">var</span> j = <span class="number">0</span>; j &lt; squ.data[<span class="number">0</span>].length; j++) {
+                <span class="keyword">if</span> (squ.data[i][j] != <span class="number">0</span>) {
                     squ.classData[i][j] = squ.class
                 }
             }
@@ -435,24 +406,24 @@ export default function () {
 
 
 
-    //下移
-    var down = function () {
-        if (cur.canDown(valid)) {
+    <span class="comment">//下移</span>
+    <span class="keyword">var</span> down = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
+        <span class="keyword">if</span> (cur.canDown(valid)) {
             clearData()
             cur.down()
             setData()
             flushDiv(gameData, gameDivs, dataClass)
-            return true
+            <span class="keyword">return</span> <span class="literal">true</span>
         }
-        return false
+        <span class="keyword">return</span> <span class="literal">false</span>
     }
 
 
 
 
 
-    var left = function () {
-        if (cur.canLeft(valid)) {
+    <span class="keyword">var</span> left = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
+        <span class="keyword">if</span> (cur.canLeft(valid)) {
             clearData()
             cur.left()
             setData()
@@ -460,8 +431,8 @@ export default function () {
         }
     }
 
-    var right = function () {
-        if (cur.canRight(valid)) {
+    <span class="keyword">var</span> right = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
+        <span class="keyword">if</span> (cur.canRight(valid)) {
             clearData()
             cur.right()
             setData()
@@ -469,8 +440,8 @@ export default function () {
         }
     }
 
-    var rotate = function () {
-        if (cur.canRotate(valid)) {
+    <span class="keyword">var</span> rotate = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
+        <span class="keyword">if</span> (cur.canRotate(valid)) {
             clearData()
             cur.rotate()
             setData()
@@ -478,591 +449,596 @@ export default function () {
         }
     }
 
-    var fall = function () {
-        while (down()) { }
+    <span class="keyword">var</span> fall = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
+        <span class="keyword">while</span> (down()) { }
     }
 
-    //销毁的方法
-    var destroyDiv = function () {
-        for (var i = 0; i &lt; gameDivs.length; i++) {
-            for (var j = 0; j &lt; gameDivs[0].length; j++) {
+    <span class="comment">//销毁的方法</span>
+    <span class="keyword">var</span> destroyDiv = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
+        <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; gameDivs.length; i++) {
+            <span class="keyword">for</span> (<span class="keyword">var</span> j = <span class="number">0</span>; j &lt; gameDivs[<span class="number">0</span>].length; j++) {
                 gameContainers.removeChild(gameDivs[i][j])
             }
         }
-        for (var i = 0; i &lt; nextDivs.length; i++) {
-            for (var j = 0; j &lt; nextDivs[0].length; j++) {
+        <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; nextDivs.length; i++) {
+            <span class="keyword">for</span> (<span class="keyword">var</span> j = <span class="number">0</span>; j &lt; nextDivs[<span class="number">0</span>].length; j++) {
                 nextContainers.removeChild(nextDivs[i][j])
             }
         }
 
     }
 
-    this.init = init
-    this.down = down
-    this.left = left
-    this.right = right
-    this.rotate = rotate
-    this.fall = fall
-    this.fixed = fixed
-    this.nextSquare = nextSquare
-    this.checkClear = checkClear
-    this.checkGameOver = checkGameOver
-    this.setTime = setTime
-    this.showGameOver = showGameOver
-    this.clearGameOver = clearGameOver
-    this.setScore = setScore
-    this.destroyDiv = destroyDiv
+    <span class="keyword">this</span>.init = init
+    <span class="keyword">this</span>.down = down
+    <span class="keyword">this</span>.left = left
+    <span class="keyword">this</span>.right = right
+    <span class="keyword">this</span>.rotate = rotate
+    <span class="keyword">this</span>.fall = fall
+    <span class="keyword">this</span>.fixed = fixed
+    <span class="keyword">this</span>.nextSquare = nextSquare
+    <span class="keyword">this</span>.checkClear = checkClear
+    <span class="keyword">this</span>.checkGameOver = checkGameOver
+    <span class="keyword">this</span>.setTime = setTime
+    <span class="keyword">this</span>.showGameOver = showGameOver
+    <span class="keyword">this</span>.clearGameOver = clearGameOver
+    <span class="keyword">this</span>.setScore = setScore
+    <span class="keyword">this</span>.destroyDiv = destroyDiv
 
-}  
-</code></pre><p>首先我先来讲一下这个游戏的原理，玩过俄罗斯方块的都清楚他的规则，我们的方块都在一个容器内，不能超出边界。是的，这个容器就是index.html中的<code>local_game</code>，这个容器的大小是400px<em>200px，我们定义一种小方块，每个大小为20px</em>20px，这个容器就能容纳10列*20行也就是200个小方块，现在这个容器被我们的小方块填充满了，游戏中我们所有的小方块有三种状态，1.空的小方块，也就是游戏中那些空闲的区域（白的区域）。2.固定的小方块，已经固定不能移动的小方块。3.正在动的小方块，也就是我门游戏中正在操作的小方块。我们给这三中状态定义假设一个值，比如：第一种状态为<code>0</code>，第二中状态为<code>1</code>，第三种状态为<code>2</code>。我们将这样200个小方块存在一个二维数组中（这里我们称之为dom数组），再将这200个小方块存入一个二维数组中（这里我们称之为状态数组）。当我们按上下左右移动方块时，其实就是更改状态数组，然后在根据状态数组的值改变dom数组中小方块的样式，比如：状态0显示白色，状态1显示蓝色，状态2显示粉色。到这里游戏的基本原理大概就解释完了，看懂了的话，下面的代码实现也就很好理解了。没看明白的话，可能..是我没说清楚吧（Σ( ° △ °|||)︴），那你可以根据源码实现一遍，应该也会理解的。</p>
-<p>接下来讲解源码，由上至下开始讲，顶部的模块引入和一些变量生命先将它们忽略，后面用到的时候会提到，先说一些比较重要的变量，<code>gameData</code>就是我们上面提到的保存方块状态的二维数组，gameDivs是我们保存200个小方块的二维数组，还记得游戏上边有显示下一个方块的区域吧，这个区域我们的游戏区域显示远离一致，只是他比较小，大小只有80px*80px，他其中的16个小方块保存在<code>nexDivs</code>二维数组中。接下来的讲解中我们将200个的这种方块称为小方块，游戏中左右上下操作的方块称为下落的方块，以免大家混淆。  </p>
-<pre><code>//初始化容器
-var initDiv = function (data, container, divs) {
-    for (var i = 0; i &lt; data.length; i++) {
-        var gameDiv = []
-        for (var j = 0; j &lt; data[0].length; j++) {
-            var newNode = document.createElement(&quot;div&quot;)
-            newNode.className = &apos;none&apos;
+}
+</code></pre>
+<p>首先我先来讲一下这个游戏的原理，玩过俄罗斯方块的都清楚他的规则，我们的方块都在一个容器内，不能超出边界。是的，这个容器就是index.html中的<code>local_game</code>，这个容器的大小是400px<em>200px，我们定义一种小方块，每个大小为20px</em>20px，这个容器就能容纳10列*20行也就是200个小方块，现在这个容器被我们的小方块填充满了，游戏中我们所有的小方块有三种状态，1.空的小方块，也就是游戏中那些空闲的区域（白的区域）。2.固定的小方块，已经固定不能移动的小方块。3.正在动的小方块，也就是我门游戏中正在操作的小方块。我们给这三中状态定义假设一个值，比如：第一种状态为<code>0</code>，第二中状态为<code>1</code>，第三种状态为<code>2</code>。我们将这样200个小方块存在一个二维数组中（这里我们称之为dom数组），再将这200个小方块存入一个二维数组中（这里我们称之为状态数组）。当我们按上下左右移动方块时，其实就是更改状态数组，然后在根据状态数组的值改变dom数组中小方块的样式，比如：状态0显示白色，状态1显示蓝色，状态2显示粉色。到这里游戏的基本原理大概就解释完了，看懂了的话，下面的代码实现也就很好理解了。没看明白的话，可能..是我没说清楚吧（Σ( ° △ °|||)︴），那你可以根据源码实现一遍，应该也会理解的。</p>
+<p>接下来讲解源码，由上至下开始讲，顶部的模块引入和一些变量生命先将它们忽略，后面用到的时候会提到，先说一些比较重要的变量，<code>gameData</code>就是我们上面提到的保存方块状态的二维数组，gameDivs是我们保存200个小方块的二维数组，还记得游戏上边有显示下一个方块的区域吧，这个区域我们的游戏区域显示远离一致，只是他比较小，大小只有80px*80px，他其中的16个小方块保存在<code>nexDivs</code>二维数组中。接下来的讲解中我们将200个的这种方块称为小方块，游戏中左右上下操作的方块称为下落的方块，以免大家混淆。 </p>
+<pre><code class="javascript"><span class="comment">//初始化容器</span>
+<span class="keyword">var</span> initDiv = <span class="function"><span class="keyword">function</span> (<span class="params">data, container, divs</span>) </span>{
+    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; data.length; i++) {
+        <span class="keyword">var</span> gameDiv = []
+        <span class="keyword">for</span> (<span class="keyword">var</span> j = <span class="number">0</span>; j &lt; data[<span class="number">0</span>].length; j++) {
+            <span class="keyword">var</span> newNode = <span class="built_in">document</span>.createElement(<span class="string">"div"</span>)
+            newNode.className = <span class="string">'none'</span>
             container.appendChild(newNode)
             gameDiv.push(newNode)
         }
-        Array.prototype.push.call(divs, gameDiv)
+        <span class="built_in">Array</span>.prototype.push.call(divs, gameDiv)
     }
 }
-//刷新容器显示
-var flushDiv = function (data, divs, classes) {
-    for (var i = 0; i &lt; data.length; i++) {
-        for (var j = 0; j &lt; data[0].length; j++) {
-            if (data[i][j] == 0) {
-                divs[i][j].className = &apos;none&apos;
-            } else {
-                if (!classes[i][j])
-                    classes[i][j] = &apos;A&apos;
+<span class="comment">//刷新容器显示</span>
+<span class="keyword">var</span> flushDiv = <span class="function"><span class="keyword">function</span> (<span class="params">data, divs, classes</span>) </span>{
+    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; data.length; i++) {
+        <span class="keyword">for</span> (<span class="keyword">var</span> j = <span class="number">0</span>; j &lt; data[<span class="number">0</span>].length; j++) {
+            <span class="keyword">if</span> (data[i][j] == <span class="number">0</span>) {
+                divs[i][j].className = <span class="string">'none'</span>
+            } <span class="keyword">else</span> {
+                <span class="keyword">if</span> (!classes[i][j])
+                    classes[i][j] = <span class="string">'A'</span>
                 divs[i][j].className = classes[i][j]
             }
         }
     }
-}  
-</code></pre><p><code>initDiv</code>就是初始化容器的方法，他生成200个小方块设置样式为none并填充到容器中，因为容器和小方块的样式都是float:left,所以小方块能够顺序排列。<code>flushDiv</code>根据<code>gameData</code>中的数据变更小方块的样式。剩余的方法下面提及。接下里是下落的方块了。  </p>
-<h4 id="square-js"><a href="#square-js" class="headerlink" title="square.js"></a>square.js</h4><pre><code>var Square = function () {
-    this.data = [
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 0, 0, 0]
+}
+</code></pre>
+<p><code>initDiv</code>就是初始化容器的方法，他生成200个小方块设置样式为none并填充到容器中，因为容器和小方块的样式都是float:left,所以小方块能够顺序排列。<code>flushDiv</code>根据<code>gameData</code>中的数据变更小方块的样式。剩余的方法下面提及。接下里是下落的方块了。  </p>
+<h4 id="square-js"><a href="#square-js" class="headerlink" title="square.js"></a>square.js</h4><pre><code class="javascript"><span class="keyword">var</span> Square = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
+    <span class="keyword">this</span>.data = [
+        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]
     ]
 
-    this.classData = [
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 0, 0, 0]
+    <span class="keyword">this</span>.classData = [
+        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]
     ]
-    this.dir = 0
+    <span class="keyword">this</span>.dir = <span class="number">0</span>
 
-    this.orgin = {
-        x: 0,
-        y: 0
+    <span class="keyword">this</span>.orgin = {
+        x: <span class="number">0</span>,
+        y: <span class="number">0</span>
     }
 }
 
-Square.prototype.canDown = function (valid) {
-    var testDown = {
-        x: this.orgin.x + 1,
-        y: this.orgin.y,
+Square.prototype.canDown = <span class="function"><span class="keyword">function</span> (<span class="params">valid</span>) </span>{
+    <span class="keyword">var</span> testDown = {
+        x: <span class="keyword">this</span>.orgin.x + <span class="number">1</span>,
+        y: <span class="keyword">this</span>.orgin.y,
     }
-    return valid(testDown, this.data)
+    <span class="keyword">return</span> valid(testDown, <span class="keyword">this</span>.data)
 }
 
-Square.prototype.canLeft = function (valid) {
-    var testLeft = {
-        x: this.orgin.x,
-        y: this.orgin.y - 1,
+Square.prototype.canLeft = <span class="function"><span class="keyword">function</span> (<span class="params">valid</span>) </span>{
+    <span class="keyword">var</span> testLeft = {
+        x: <span class="keyword">this</span>.orgin.x,
+        y: <span class="keyword">this</span>.orgin.y - <span class="number">1</span>,
     }
-    return valid(testLeft, this.data)
+    <span class="keyword">return</span> valid(testLeft, <span class="keyword">this</span>.data)
 }
 
-Square.prototype.canRight = function (valid) {
-    var testRight = {
-        x: this.orgin.x,
-        y: this.orgin.y + 1,
+Square.prototype.canRight = <span class="function"><span class="keyword">function</span> (<span class="params">valid</span>) </span>{
+    <span class="keyword">var</span> testRight = {
+        x: <span class="keyword">this</span>.orgin.x,
+        y: <span class="keyword">this</span>.orgin.y + <span class="number">1</span>,
     }
-    return valid(testRight, this.data)
+    <span class="keyword">return</span> valid(testRight, <span class="keyword">this</span>.data)
 }
 
-Square.prototype.canRotate = function (valid) {
-    var d = (this.dir + 1) % 4
-    return valid(this.orgin, this.rotates[d])
+Square.prototype.canRotate = <span class="function"><span class="keyword">function</span> (<span class="params">valid</span>) </span>{
+    <span class="keyword">var</span> d = (<span class="keyword">this</span>.dir + <span class="number">1</span>) % <span class="number">4</span>
+    <span class="keyword">return</span> valid(<span class="keyword">this</span>.orgin, <span class="keyword">this</span>.rotates[d])
 }
 
-Square.prototype.down = function () {
-    this.orgin.x += 1
+Square.prototype.down = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
+    <span class="keyword">this</span>.orgin.x += <span class="number">1</span>
 }
 
-Square.prototype.left = function () {
-    this.orgin.y -= 1
+Square.prototype.left = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
+    <span class="keyword">this</span>.orgin.y -= <span class="number">1</span>
 }
 
-Square.prototype.right = function () {
-    this.orgin.y += 1
+Square.prototype.right = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
+    <span class="keyword">this</span>.orgin.y += <span class="number">1</span>
 }
 
-Square.prototype.rotate = function (num) {
-    if (!num)
-        num = 1
-    this.dir = (this.dir + num) % 4
-    this.data = this.rotates[this.dir]
+Square.prototype.rotate = <span class="function"><span class="keyword">function</span> (<span class="params">num</span>) </span>{
+    <span class="keyword">if</span> (!num)
+        num = <span class="number">1</span>
+    <span class="keyword">this</span>.dir = (<span class="keyword">this</span>.dir + num) % <span class="number">4</span>
+    <span class="keyword">this</span>.data = <span class="keyword">this</span>.rotates[<span class="keyword">this</span>.dir]
 }
-export default Square  
-</code></pre><p><code>Square</code>是所有下落方块的父类，<code>data</code>是描述方块形状的数组，此数组中只有状态3，因为他只表述运动中的方块，当方块固定下来后，这个方块回销毁，数据将存入game.js中的<code>gameData</code>，<code>orgin</code>是方块当前位置的原点，有了这个原点，移动方块时，只需要移动这个原点，这是一种很巧妙的思维方式，<code>dataClass</code>是保存运动中每个小方块样式的数组，每个下落的方块能翻转4次，<code>dir</code>是保存当前翻转形态的<code>down</code>,<code>right</code>,<code>left</code>是下落方块移动对应的方法，<code>rotate</code>是下落方块翻转的方法。对应的can方法是判断方块的位置是否能做对应的操作。    </p>
-<h4 id="squareFactory-js"><a href="#squareFactory-js" class="headerlink" title="squareFactory.js"></a>squareFactory.js</h4><pre><code>import Square from &quot;./square.js&quot;;
+<span class="keyword">export</span> <span class="keyword">default</span> Square
+</code></pre>
+<p><code>Square</code>是所有下落方块的父类，<code>data</code>是描述方块形状的数组，此数组中只有状态3，因为他只表述运动中的方块，当方块固定下来后，这个方块回销毁，数据将存入game.js中的<code>gameData</code>，<code>orgin</code>是方块当前位置的原点，有了这个原点，移动方块时，只需要移动这个原点，这是一种很巧妙的思维方式，<code>dataClass</code>是保存运动中每个小方块样式的数组，每个下落的方块能翻转4次，<code>dir</code>是保存当前翻转形态的<code>down</code>,<code>right</code>,<code>left</code>是下落方块移动对应的方法，<code>rotate</code>是下落方块翻转的方法。对应的can方法是判断方块的位置是否能做对应的操作。    </p>
+<h4 id="squareFactory-js"><a href="#squareFactory-js" class="headerlink" title="squareFactory.js"></a>squareFactory.js</h4><pre><code class="javascript"><span class="keyword">import</span> Square <span class="keyword">from</span> <span class="string">"./square.js"</span>;
 
-var Square1 = function () {
+<span class="keyword">var</span> Square1 = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
 
-    Square.call(this)
+    Square.call(<span class="keyword">this</span>)
 
-    this.rotates = [
+    <span class="keyword">this</span>.rotates = [
         [
-            [0, 0, 0, 0],
-            [2, 2, 2, 2],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0]
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+            [<span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>],
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]
         ], [
-            [0, 2, 0, 0],
-            [0, 2, 0, 0],
-            [0, 2, 0, 0],
-            [0, 2, 0, 0]
+            [<span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">0</span>]
         ], [
-            [0, 0, 0, 0],
-            [2, 2, 2, 2],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0]
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+            [<span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>],
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]
         ], [
-            [0, 2, 0, 0],
-            [0, 2, 0, 0],
-            [0, 2, 0, 0],
-            [0, 2, 0, 0]
+            [<span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">0</span>]
         ]
     ]
 }
-Square1.prototype = new Square()
+Square1.prototype = <span class="keyword">new</span> Square()
 
-var Square2 = function () {
+<span class="keyword">var</span> Square2 = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
 
-    Square.call(this)
+    Square.call(<span class="keyword">this</span>)
 
-    this.rotates = [
+    <span class="keyword">this</span>.rotates = [
         [
-            [0, 2, 0, 0],
-            [2, 2, 2, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0]
+            [<span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">0</span>],
+            [<span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]
         ], [
-            [0, 2, 0, 0],
-            [0, 2, 2, 0],
-            [0, 2, 0, 0],
-            [0, 0, 0, 0]
+            [<span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]
         ], [
-            [2, 2, 2, 0],
-            [0, 2, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0]
+            [<span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]
         ], [
-            [0, 2, 0, 0],
-            [2, 2, 0, 0],
-            [0, 2, 0, 0],
-            [0, 0, 0, 0]
+            [<span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">0</span>],
+            [<span class="number">2</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]
         ]
     ]
 }
-Square2.prototype = new Square()
+Square2.prototype = <span class="keyword">new</span> Square()
 
-var Square3 = function () {
+<span class="keyword">var</span> Square3 = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
 
-    Square.call(this)
+    Square.call(<span class="keyword">this</span>)
 
-    this.rotates = [
+    <span class="keyword">this</span>.rotates = [
         [
-            [0, 2, 0, 0],
-            [0, 2, 2, 2],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0]
+            [<span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>],
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]
         ], [
-            [0, 2, 2, 0],
-            [0, 2, 0, 0],
-            [0, 2, 0, 0],
-            [0, 0, 0, 0]
+            [<span class="number">0</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]
         ], [
-            [2, 2, 2, 0],
-            [0, 0, 2, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0]
+            [<span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]
         ], [
-            [0, 0, 2, 0],
-            [0, 0, 2, 0],
-            [0, 2, 2, 0],
-            [0, 0, 0, 0]
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]
         ]
     ]
 }
-Square3.prototype = new Square()
+Square3.prototype = <span class="keyword">new</span> Square()
 
 
-var Square4 = function () {
+<span class="keyword">var</span> Square4 = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
 
-    Square.call(this)
+    Square.call(<span class="keyword">this</span>)
 
-    this.rotates = [
+    <span class="keyword">this</span>.rotates = [
         [
-            [0, 0, 0, 0],
-            [0, 2, 2, 0],
-            [0, 2, 2, 0],
-            [0, 0, 0, 0]
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]
         ], [
-            [0, 0, 0, 0],
-            [0, 2, 2, 0],
-            [0, 2, 2, 0],
-            [0, 0, 0, 0]
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]
         ], [
-            [0, 0, 0, 0],
-            [0, 2, 2, 0],
-            [0, 2, 2, 0],
-            [0, 0, 0, 0]
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]
         ], [
-            [0, 0, 0, 0],
-            [0, 2, 2, 0],
-            [0, 2, 2, 0],
-            [0, 0, 0, 0]
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]
         ]
     ]
 }
-Square4.prototype = new Square()
+Square4.prototype = <span class="keyword">new</span> Square()
 
-var Square5 = function () {
+<span class="keyword">var</span> Square5 = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
 
-    Square.call(this)
+    Square.call(<span class="keyword">this</span>)
 
-    this.rotates = [
+    <span class="keyword">this</span>.rotates = [
         [
-            [2, 2, 0, 0],
-            [0, 2, 2, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0]
+            [<span class="number">2</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]
         ], [
-            [0, 0, 2, 0],
-            [0, 2, 2, 0],
-            [0, 2, 0, 0],
-            [0, 0, 0, 0]
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]
         ], [
-            [2, 2, 0, 0],
-            [0, 2, 2, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0]
+            [<span class="number">2</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]
         ], [
-            [0, 0, 2, 0],
-            [0, 2, 2, 0],
-            [0, 2, 0, 0],
-            [0, 0, 0, 0]
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]
         ]
     ]
 }
-Square5.prototype = new Square()
+Square5.prototype = <span class="keyword">new</span> Square()
 
-var Square6 = function () {
+<span class="keyword">var</span> Square6 = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
 
-    Square.call(this)
+    Square.call(<span class="keyword">this</span>)
 
-    this.rotates = [
+    <span class="keyword">this</span>.rotates = [
         [
-            [0, 0, 2, 0],
-            [2, 2, 2, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0]
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>],
+            [<span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]
         ], [
-            [0, 2, 0, 0],
-            [0, 2, 0, 0],
-            [0, 2, 2, 0],
-            [0, 0, 0, 0]
+            [<span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]
         ], [
-            [2, 2, 2, 0],
-            [2, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0]
+            [<span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">0</span>],
+            [<span class="number">2</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]
         ], [
-            [2, 2, 0, 0],
-            [0, 2, 0, 0],
-            [0, 2, 0, 0],
-            [0, 0, 0, 0]
+            [<span class="number">2</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]
         ]
     ]
 }
-Square6.prototype = new Square()
+Square6.prototype = <span class="keyword">new</span> Square()
 
-var Square7 = function () {
+<span class="keyword">var</span> Square7 = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
 
-    Square.call(this)
+    Square.call(<span class="keyword">this</span>)
 
-    this.rotates = [
+    <span class="keyword">this</span>.rotates = [
         [
-            [0, 2, 2, 0],
-            [2, 2, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0]
+            [<span class="number">0</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">0</span>],
+            [<span class="number">2</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]
         ], [
-            [0, 2, 0, 0],
-            [0, 2, 2, 0],
-            [0, 0, 2, 0],
-            [0, 0, 0, 0]
+            [<span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]
         ], [
-            [0, 2, 2, 0],
-            [2, 2, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0]
+            [<span class="number">0</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">0</span>],
+            [<span class="number">2</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]
         ], [
-            [0, 2, 0, 0],
-            [0, 2, 2, 0],
-            [0, 0, 2, 0],
-            [0, 0, 0, 0]
+            [<span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>],
+            [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]
         ]
     ]
 }
-Square7.prototype = new Square()
+Square7.prototype = <span class="keyword">new</span> Square()
 
 
-var SquareFactory = function () { }
+<span class="keyword">var</span> SquareFactory = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{ }
 
-SquareFactory.prototype.make = function (index, dir) {
-    var classes = [&apos;A&apos;, &apos;B&apos;, &apos;C&apos;, &apos;D&apos;, &apos;E&apos;, &apos;F&apos;, &apos;G&apos;, &apos;H&apos;]
-    var s
-    index += 1
-    switch (index) {
-        case 1:
-            s = new Square1()
-            break;
-        case 2:
-            s = new Square2()
-            break;
-        case 3:
-            s = new Square3()
-            break;
-        case 4:
-            s = new Square4()
-            break;
-        case 5:
-            s = new Square5()
-            break;
-        case 6:
-            s = new Square6()
-            break;
-        case 7:
-            s = new Square7()
-            break;
+SquareFactory.prototype.make = <span class="function"><span class="keyword">function</span> (<span class="params">index, dir</span>) </span>{
+    <span class="keyword">var</span> classes = [<span class="string">'A'</span>, <span class="string">'B'</span>, <span class="string">'C'</span>, <span class="string">'D'</span>, <span class="string">'E'</span>, <span class="string">'F'</span>, <span class="string">'G'</span>, <span class="string">'H'</span>]
+    <span class="keyword">var</span> s
+    index += <span class="number">1</span>
+    <span class="keyword">switch</span> (index) {
+        <span class="keyword">case</span> <span class="number">1</span>:
+            s = <span class="keyword">new</span> Square1()
+            <span class="keyword">break</span>;
+        <span class="keyword">case</span> <span class="number">2</span>:
+            s = <span class="keyword">new</span> Square2()
+            <span class="keyword">break</span>;
+        <span class="keyword">case</span> <span class="number">3</span>:
+            s = <span class="keyword">new</span> Square3()
+            <span class="keyword">break</span>;
+        <span class="keyword">case</span> <span class="number">4</span>:
+            s = <span class="keyword">new</span> Square4()
+            <span class="keyword">break</span>;
+        <span class="keyword">case</span> <span class="number">5</span>:
+            s = <span class="keyword">new</span> Square5()
+            <span class="keyword">break</span>;
+        <span class="keyword">case</span> <span class="number">6</span>:
+            s = <span class="keyword">new</span> Square6()
+            <span class="keyword">break</span>;
+        <span class="keyword">case</span> <span class="number">7</span>:
+            s = <span class="keyword">new</span> Square7()
+            <span class="keyword">break</span>;
     }
 
 
 
-    s.orgin.x = 0
-    s.orgin.y = 3
-    s.class = classes[Math.ceil(Math.random() * 9) - 1]
+    s.orgin.x = <span class="number">0</span>
+    s.orgin.y = <span class="number">3</span>
+    s.class = classes[<span class="built_in">Math</span>.ceil(<span class="built_in">Math</span>.random() * <span class="number">9</span>) - <span class="number">1</span>]
 
     s.rotate(dir)
 
-    return s;
+    <span class="keyword">return</span> s;
 }
 
-export default SquareFactory  
-</code></pre><p>看<code>squareFactory</code>这个名字大家都会明白这是个工厂模块，不明白工厂模式的请自行百度… 在<code>squareFactory</code>中定义了俄罗斯方块中基本的七种方块，并提供了生成方块的方法，这七中方块都继承自<code>square</code>，也就是它们都有移动的方法，不同于父模块，这些方块中的<code>rotates</code>定义了此方块翻转的四种形态。<code>squareFactory</code>的<code>make</code>方法根据参数生成方块，<code>index</code>参数代表要生成的方块，<code>dir</code>表示方块翻转的形态，这两个参数将由game模块传进来，当然这两个方块是随机数，因为每次的方块都是随机的。<code>classes</code>表示的是方块的样式，初始将会给方块也随机赋予一个颜色。  </p>
-<h4 id="local-js"><a href="#local-js" class="headerlink" title="local.js"></a>local.js</h4><pre><code>import _ from &apos;lodash&apos;;
-import Game from &quot;./game.js&quot;;
-export default function () {
-    var game
+<span class="keyword">export</span> <span class="keyword">default</span> SquareFactory
+</code></pre>
+<p>看<code>squareFactory</code>这个名字大家都会明白这是个工厂模块，不明白工厂模式的请自行百度… 在<code>squareFactory</code>中定义了俄罗斯方块中基本的七种方块，并提供了生成方块的方法，这七中方块都继承自<code>square</code>，也就是它们都有移动的方法，不同于父模块，这些方块中的<code>rotates</code>定义了此方块翻转的四种形态。<code>squareFactory</code>的<code>make</code>方法根据参数生成方块，<code>index</code>参数代表要生成的方块，<code>dir</code>表示方块翻转的形态，这两个参数将由game模块传进来，当然这两个方块是随机数，因为每次的方块都是随机的。<code>classes</code>表示的是方块的样式，初始将会给方块也随机赋予一个颜色。  </p>
+<h4 id="local-js"><a href="#local-js" class="headerlink" title="local.js"></a>local.js</h4><pre><code class="javascript"><span class="keyword">import</span> _ <span class="keyword">from</span> <span class="string">'lodash'</span>;
+<span class="keyword">import</span> Game <span class="keyword">from</span> <span class="string">"./game.js"</span>;
+<span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
+    <span class="keyword">var</span> game
 
-    var timer
-    var INTERVAL = 200
-    var hours
-    var minute
-    var seconds
+    <span class="keyword">var</span> timer
+    <span class="keyword">var</span> INTERVAL = <span class="number">200</span>
+    <span class="keyword">var</span> hours
+    <span class="keyword">var</span> minute
+    <span class="keyword">var</span> seconds
 
-    var score = 0
+    <span class="keyword">var</span> score = <span class="number">0</span>
 
-    var timeCount = 0
+    <span class="keyword">var</span> timeCount = <span class="number">0</span>
 
-    var isStart = false;
-    var isPause = false
+    <span class="keyword">var</span> isStart = <span class="literal">false</span>;
+    <span class="keyword">var</span> isPause = <span class="literal">false</span>
 
-    var bindKeyEvent = function () {
-        document.onkeydown = function (e) {
-            switch (e.keyCode) {
-                case 38://up
+    <span class="keyword">var</span> bindKeyEvent = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
+        <span class="built_in">document</span>.onkeydown = <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>{
+            <span class="keyword">switch</span> (e.keyCode) {
+                <span class="keyword">case</span> <span class="number">38</span>:<span class="comment">//up</span>
                     game.rotate()
-                    break
-                case 39://right
+                    <span class="keyword">break</span>
+                <span class="keyword">case</span> <span class="number">39</span>:<span class="comment">//right</span>
                     game.right()
-                    break
-                case 37://left
+                    <span class="keyword">break</span>
+                <span class="keyword">case</span> <span class="number">37</span>:<span class="comment">//left</span>
                     game.left()
-                    break
-                case 40://down
+                    <span class="keyword">break</span>
+                <span class="keyword">case</span> <span class="number">40</span>:<span class="comment">//down</span>
                     game.down()
-                    break
-                case 32://space
+                    <span class="keyword">break</span>
+                <span class="keyword">case</span> <span class="number">32</span>:<span class="comment">//space</span>
                     game.fall()
-                    break
+                    <span class="keyword">break</span>
             }
         }
     }
 
-    var generateType = function () {
-        return Math.ceil(Math.random() * 7) - 1
+    <span class="keyword">var</span> generateType = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
+        <span class="keyword">return</span> <span class="built_in">Math</span>.ceil(<span class="built_in">Math</span>.random() * <span class="number">7</span>) - <span class="number">1</span>
     }
 
-    var generateDir = function () {
-        return Math.ceil(Math.random() * 4) - 1
+    <span class="keyword">var</span> generateDir = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
+        <span class="keyword">return</span> <span class="built_in">Math</span>.ceil(<span class="built_in">Math</span>.random() * <span class="number">4</span>) - <span class="number">1</span>
     }
 
-    var addScore = function (data) {
-        switch (data) {
-            case 0:
-                return 0
-            case 1:
-                return 10
-            case 2:
-                return 40
-            case 3:
-                return 60
-            case 4:
-                return 80
-            default:
-                return 100
+    <span class="keyword">var</span> addScore = <span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>{
+        <span class="keyword">switch</span> (data) {
+            <span class="keyword">case</span> <span class="number">0</span>:
+                <span class="keyword">return</span> <span class="number">0</span>
+            <span class="keyword">case</span> <span class="number">1</span>:
+                <span class="keyword">return</span> <span class="number">10</span>
+            <span class="keyword">case</span> <span class="number">2</span>:
+                <span class="keyword">return</span> <span class="number">40</span>
+            <span class="keyword">case</span> <span class="number">3</span>:
+                <span class="keyword">return</span> <span class="number">60</span>
+            <span class="keyword">case</span> <span class="number">4</span>:
+                <span class="keyword">return</span> <span class="number">80</span>
+            <span class="keyword">default</span>:
+                <span class="keyword">return</span> <span class="number">100</span>
         }
     }
 
 
-    var gameOver = function () {
+    <span class="keyword">var</span> gameOver = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
         clearInterval(timer)
         game.showGameOver()
         game.nextSquare(generateType(), generateDir())
-        document.onkeydown = null
-        timer = null
-        timeCount = 0
-        score = 0 
-        isStart = true
+        <span class="built_in">document</span>.onkeydown = <span class="literal">null</span>
+        timer = <span class="literal">null</span>
+        timeCount = <span class="number">0</span>
+        score = <span class="number">0</span> 
+        isStart = <span class="literal">true</span>
     }
 
-    var clearGameOver = function () {
+    <span class="keyword">var</span> clearGameOver = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
         game.clearGameOver()
         game.destroyDiv()
-        game.setScore(0)
-        game.setTime(0)
+        game.setScore(<span class="number">0</span>)
+        game.setTime(<span class="number">0</span>)
     }
 
-    var move = function (gamoverDiv) {
-        if (!game.down()) {//如果不能下落
-            game.fixed()//固定
+    <span class="keyword">var</span> move = <span class="function"><span class="keyword">function</span> (<span class="params">gamoverDiv</span>) </span>{
+        <span class="keyword">if</span> (!game.down()) {<span class="comment">//如果不能下落</span>
+            game.fixed()<span class="comment">//固定</span>
             score += addScore(game.checkClear())
-            game.setScore(score)//消行
-            if (game.checkGameOver()) {//判断游戏是否结束
+            game.setScore(score)<span class="comment">//消行</span>
+            <span class="keyword">if</span> (game.checkGameOver()) {<span class="comment">//判断游戏是否结束</span>
                 gameOver()
-            } else {
-                game.nextSquare(generateType(), generateDir())//生成下一个方块
+            } <span class="keyword">else</span> {
+                game.nextSquare(generateType(), generateDir())<span class="comment">//生成下一个方块</span>
             }
         }
     }
 
-    var addTime = function () {
+    <span class="keyword">var</span> addTime = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
         timeCount++;
-        if (timeCount % 5 == 0) {
-            seconds = timeCount / 5
-            var showTime;
-            if (seconds &gt;= 3600) {
-                var tmp = seconds % 3600
-                var tmpMinute = Math.floor(tmp / 60)
-                showTime = Math.floor(seconds / 3600) + &quot;小时&quot; + tmpMinute + &apos;分&apos; + tmp % 60 + &apos;秒&apos;
-            } else if (seconds &gt;= 60) {
-                showTime = Math.floor(seconds / 60) + &quot;分&quot; + seconds % 60 + &apos;秒&apos;
-            } else {
-                showTime = seconds + &apos;秒&apos;
+        <span class="keyword">if</span> (timeCount % <span class="number">5</span> == <span class="number">0</span>) {
+            seconds = timeCount / <span class="number">5</span>
+            <span class="keyword">var</span> showTime;
+            <span class="keyword">if</span> (seconds &gt;= <span class="number">3600</span>) {
+                <span class="keyword">var</span> tmp = seconds % <span class="number">3600</span>
+                <span class="keyword">var</span> tmpMinute = <span class="built_in">Math</span>.floor(tmp / <span class="number">60</span>)
+                showTime = <span class="built_in">Math</span>.floor(seconds / <span class="number">3600</span>) + <span class="string">"小时"</span> + tmpMinute + <span class="string">'分'</span> + tmp % <span class="number">60</span> + <span class="string">'秒'</span>
+            } <span class="keyword">else</span> <span class="keyword">if</span> (seconds &gt;= <span class="number">60</span>) {
+                showTime = <span class="built_in">Math</span>.floor(seconds / <span class="number">60</span>) + <span class="string">"分"</span> + seconds % <span class="number">60</span> + <span class="string">'秒'</span>
+            } <span class="keyword">else</span> {
+                showTime = seconds + <span class="string">'秒'</span>
             }
             game.setTime(showTime)
         }
     }
 
-    var start = function () {
-        if (!timer) {
-            if(isStart)
+    <span class="keyword">var</span> start = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
+        <span class="keyword">if</span> (!timer) {
+            <span class="keyword">if</span>(isStart)
                 clearGameOver()
-            game = new Game()
-            var doms = {
-                gameContainers: document.getElementById(&quot;local_game&quot;),
-                nextContainers: document.getElementById(&quot;local_next&quot;),
-                timeDiv: document.getElementById(&quot;local_time&quot;),
-                gameoverDiv: document.getElementById(&quot;local_gameover&quot;),
-                scoreDiv: document.getElementById(&quot;local_score&quot;)
+            game = <span class="keyword">new</span> Game()
+            <span class="keyword">var</span> doms = {
+                gameContainers: <span class="built_in">document</span>.getElementById(<span class="string">"local_game"</span>),
+                nextContainers: <span class="built_in">document</span>.getElementById(<span class="string">"local_next"</span>),
+                timeDiv: <span class="built_in">document</span>.getElementById(<span class="string">"local_time"</span>),
+                gameoverDiv: <span class="built_in">document</span>.getElementById(<span class="string">"local_gameover"</span>),
+                scoreDiv: <span class="built_in">document</span>.getElementById(<span class="string">"local_score"</span>)
             }
 
             game.init(doms, generateType(), generateDir())
             game.nextSquare(generateType(), generateDir())
             bindKeyEvent()
 
-            timer = setInterval(function () {
+            timer = setInterval(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
                 move()
                 addTime()
             }, INTERVAL)
         }
     }
 
-    var pause = function (e) {
-        if (!isPause &amp;&amp; timer) {
-            isPause = true
+    <span class="keyword">var</span> pause = <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>{
+        <span class="keyword">if</span> (!isPause &amp;&amp; timer) {
+            isPause = <span class="literal">true</span>
             clearInterval(timer)
-            this.innerText = &apos;继续&apos;
-            this.onclick = continue_
-            document.onkeydown = null
+            <span class="keyword">this</span>.innerText = <span class="string">'继续'</span>
+            <span class="keyword">this</span>.onclick = continue_
+            <span class="built_in">document</span>.onkeydown = <span class="literal">null</span>
         }
     }
 
-    var continue_ = function () {
-        if (isPause) {
-            isPause = false
-            timer = setInterval(function () {
+    <span class="keyword">var</span> continue_ = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
+        <span class="keyword">if</span> (isPause) {
+            isPause = <span class="literal">false</span>
+            timer = setInterval(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
                 move()
                 addTime()
             }, INTERVAL)
-            this.innerText = &apos;暂停&apos;
-            this.onclick = pause
+            <span class="keyword">this</span>.innerText = <span class="string">'暂停'</span>
+            <span class="keyword">this</span>.onclick = pause
             bindKeyEvent()
         }
     }
 
-    var stop = function () {
-        isStart = false
+    <span class="keyword">var</span> stop = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
+        isStart = <span class="literal">false</span>
         clearInterval(timer)
-        document.onkeydown = null
-        timer = null
+        <span class="built_in">document</span>.onkeydown = <span class="literal">null</span>
+        timer = <span class="literal">null</span>
         game.destroyDiv()
         game.clearGameOver()
-        game.setScore(0)
-        game.setTime(0)
-        timeCount = 0
-        score = 0
+        game.setScore(<span class="number">0</span>)
+        game.setTime(<span class="number">0</span>)
+        timeCount = <span class="number">0</span>
+        score = <span class="number">0</span>
     }
 
-    var init = function () {
-        //绑定开始按钮事件
-        document.getElementById(&quot;local_start&quot;).onclick = start
-        //绑定暂停按钮事件
-        document.getElementById(&quot;local_pause&quot;).onclick = pause
-        //绑定结束按钮事件
-        document.getElementById(&quot;local_stop&quot;).onclick = stop
+    <span class="keyword">var</span> init = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
+        <span class="comment">//绑定开始按钮事件</span>
+        <span class="built_in">document</span>.getElementById(<span class="string">"local_start"</span>).onclick = start
+        <span class="comment">//绑定暂停按钮事件</span>
+        <span class="built_in">document</span>.getElementById(<span class="string">"local_pause"</span>).onclick = pause
+        <span class="comment">//绑定结束按钮事件</span>
+        <span class="built_in">document</span>.getElementById(<span class="string">"local_stop"</span>).onclick = stop
     }
 
 
 
 
-    this.init = init
+    <span class="keyword">this</span>.init = init
 
-}  
-</code></pre><p><code>local</code>模块主要是开始，暂停，继续，结束按钮事件和上下左右空格键盘输入事件以及判断游戏结束的。这块不是我们的重点环节，注释都有，大家自行食用吧。</p>
+}
+</code></pre>
+<p><code>local</code>模块主要是开始，暂停，继续，结束按钮事件和上下左右空格键盘输入事件以及判断游戏结束的。这块不是我们的重点环节，注释都有，大家自行食用吧。</p>
 <h3 id="总体描述"><a href="#总体描述" class="headerlink" title="总体描述"></a>总体描述</h3><p>我们的游戏代码其实就是主页加载<code>local</code>,<code>loacl</code>绑定键盘和按钮事件，事件中调用<code>game</code>,<code>game</code>再调用<code>squareFactory</code>生成下落方块，当我们输入操作时，再通过<code>Square</code>中对应的方法修改下落方块的<code>data</code>数组和<code>orgin</code>原点，<code>game</code>再通过原点和<code>data</code>修改自己的<code>gameData</code>，接着再通过<code>gameData</code>数组来刷新<code>gameDivs</code>和<code>nextDivs</code>中小方块的样式。<br>由于代码细节较多，如方块消行，加分，判断点位置合法性，判断游戏结束等等，我也不可能一一列出啦，所以这些细节大家如果感兴趣的话可以到<a href="https://github.com/yeqingyun/Square" target="_blank" rel="external">源码</a>中去查看。怎么样，明白了吗？有什么问题请下方留言。</p>
 
       
@@ -1154,16 +1130,19 @@ export default function () {
   
 </article>
 
-<!-- Table of Contents -->
 
-  <aside id="sidebar">
-    <div id="toc" class="toc-article">
-    <strong class="toc-title">文章目录</strong>
-    
-      <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#开发环境"><span class="nav-number">1.</span> <span class="nav-text">开发环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码"><span class="nav-number">2.</span> <span class="nav-text">代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在线演示"><span class="nav-number">3.</span> <span class="nav-text">在线演示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#源码分析"><span class="nav-number">4.</span> <span class="nav-text">源码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#index-html"><span class="nav-number">4.1.</span> <span class="nav-text">index.html</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#game-js"><span class="nav-number">4.2.</span> <span class="nav-text">game.js</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#square-js"><span class="nav-number">4.3.</span> <span class="nav-text">square.js</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#squareFactory-js"><span class="nav-number">4.4.</span> <span class="nav-text">squareFactory.js</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#local-js"><span class="nav-number">4.5.</span> <span class="nav-text">local.js</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总体描述"><span class="nav-number">5.</span> <span class="nav-text">总体描述</span></a></li></ol>
-    
-    </div>
-  </aside>
+
+  <!-- Table of Contents -->
+  
+    <aside id="sidebar">
+      <div id="toc" class="toc-article">
+      <strong class="toc-title">文章目录</strong>
+      
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#开发环境"><span class="nav-number">1.</span> <span class="nav-text">开发环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码"><span class="nav-number">2.</span> <span class="nav-text">代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在线演示"><span class="nav-number">3.</span> <span class="nav-text">在线演示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#源码分析"><span class="nav-number">4.</span> <span class="nav-text">源码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#index-html"><span class="nav-number">4.1.</span> <span class="nav-text">index.html</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#game-js"><span class="nav-number">4.2.</span> <span class="nav-text">game.js</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#square-js"><span class="nav-number">4.3.</span> <span class="nav-text">square.js</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#squareFactory-js"><span class="nav-number">4.4.</span> <span class="nav-text">squareFactory.js</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#local-js"><span class="nav-number">4.5.</span> <span class="nav-text">local.js</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总体描述"><span class="nav-number">5.</span> <span class="nav-text">总体描述</span></a></li></ol>
+      
+      </div>
+    </aside>
+  
 
 
 

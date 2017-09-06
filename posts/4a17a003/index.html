@@ -21,7 +21,7 @@
 <meta property="og:site_name" content="一些">
 <meta property="og:description" content="不要浪费时间，直接开始正题吧。下面是碰到的具体情况对应的具体操作。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-09-04T09:54:50.852Z">
+<meta property="og:updated_time" content="2017-09-06T06:41:37.882Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="最最常用的git command">
 <meta name="twitter:description" content="不要浪费时间，直接开始正题吧。下面是碰到的具体情况对应的具体操作。">
@@ -203,7 +203,7 @@ $ git merge ls/master
 $ git fetch ww
 $ git merge ww/master
 </code></pre>
-<h3 id="基于分支开发"><a href="#基于分支开发" class="headerlink" title="基于分支开发"></a>基于分支开发</h3><p>当项目升级到一个稳定的版本后，我们想要尝试加一些新功能（不确定的功能），又不愿意修改项目稳定版本的代码，这时就要利用分支来做开发了。我们新开一个分支，将新功能的代码提交到分支上，新功能开发完毕后，我们根据效果确定这个功能存在的必要性，再决定要不要把代码合并到主干上。在这里说明一下origin和branch的区别，origin是源，也就是代码的地址，而branch是分支，比如：github上每个项目有且只有一个唯一的origin(例如：<a href="https://github.com/leader/a.git)，但每个项目能有许多的分支。git" target="_blank" rel="external">https://github.com/leader/a.git)，但每个项目能有许多的分支。git</a> remote -v 查看到的就是代码的源，这里可以定义多个源，fetch和push的时候要指定目标源。git branch -a查看到的是本地和远程的分支。</p>
+<h3 id="基于分支开发"><a href="#基于分支开发" class="headerlink" title="基于分支开发"></a>基于分支开发</h3><p>当项目升级到一个稳定的版本后，我们想要尝试加一些新功能（不确定的功能），又不愿意修改项目稳定版本的代码，这时就要利用分支来做开发了。我们新开一个分支，将新功能的代码提交到分支上，新功能开发完毕后，我们根据效果确定这个功能存在的必要性，再决定要不要把代码合并到主干上。在这里说明一下origin和branch的区别，origin是源，也就是代码的地址，而branch是分支，比如：github上每个项目有且只有一个唯一的标识自己的origin(例如：<a href="https://github.com/leader/a.git" target="_blank" rel="external">https://github.com/leader/a.git</a> )，但每个项目能有许多的分支。git remote -v 查看到的就是代码的源，这里可以定义多个源，fetch和push的时候要指定目标源。git branch -a查看到的是本地和远程的分支。</p>
 <pre><code class="bash">$ git branch <span class="comment">#查看分支</span>
 * master <span class="comment"># * 标识当前分支</span>
 $ git branch <span class="built_in">test</span> <span class="comment">#创建分支</span>
@@ -337,11 +337,11 @@ $ git push -f origin master <span class="comment">#强制提交到远程主干</
     
 <nav id="article-nav">
   
-    <a href="/posts/172175ba/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/posts/4a17a004/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">上一篇</strong>
       <div class="article-nav-title">
         
-          深入浅出javascript(一)
+          Activiti回顾
         
       </div>
     </a>
@@ -352,16 +352,19 @@ $ git push -f origin master <span class="comment">#强制提交到远程主干</
   
 </article>
 
-<!-- Table of Contents -->
 
-  <aside id="sidebar">
-    <div id="toc" class="toc-article">
-    <strong class="toc-title">文章目录</strong>
-    
-      <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#fork代码之后的同步"><span class="nav-number">1.</span> <span class="nav-text">fork代码之后的同步</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于分支开发"><span class="nav-number">2.</span> <span class="nav-text">基于分支开发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码回滚"><span class="nav-number">3.</span> <span class="nav-text">代码回滚</span></a></li></ol>
-    
-    </div>
-  </aside>
+
+  <!-- Table of Contents -->
+  
+    <aside id="sidebar">
+      <div id="toc" class="toc-article">
+      <strong class="toc-title">文章目录</strong>
+      
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#fork代码之后的同步"><span class="nav-number">1.</span> <span class="nav-text">fork代码之后的同步</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于分支开发"><span class="nav-number">2.</span> <span class="nav-text">基于分支开发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码回滚"><span class="nav-number">3.</span> <span class="nav-text">代码回滚</span></a></li></ol>
+      
+      </div>
+    </aside>
+  
 
 
 
