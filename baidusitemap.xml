@@ -5,15 +5,36 @@
     
   <url>
     <loc>http://ilovejava.cn/posts/4a17a002/</loc>
-    <lastmod>2017-09-06T07:06:55.312Z</lastmod>
+    <lastmod>2017-09-11T01:08:49.907Z</lastmod>
     <data>
         <display>
         <title>用javascript开发一个俄罗斯方块</title>
-        <pubTime>2016-06-09T05:36:43.000Z</pubTime>
+        <pubTime>2016-01-09T05:36:43.000Z</pubTime>
         
         <tag>javascript</tag>
          
+        <tag>游戏</tag>
+         
         <tag>算法</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://ilovejava.cn/posts/4a17a005/</loc>
+    <lastmod>2017-09-11T01:08:49.877Z</lastmod>
+    <data>
+        <display>
+        <title>用React重构俄罗斯方块，并升级为Plus版</title>
+        <pubTime>2017-01-10T05:36:43.000Z</pubTime>
+        
+        <tag>react</tag>
+         
+        <tag>javascript</tag>
          
         <tag>游戏</tag>
          
@@ -25,14 +46,14 @@
 
     
   <url>
-    <loc>http://ilovejava.cn/posts/172175ba/</loc>
-    <lastmod>2017-09-06T07:06:21.496Z</lastmod>
+    <loc>http://ilovejava.cn/posts/4a17a006/</loc>
+    <lastmod>2017-09-11T01:08:49.876Z</lastmod>
     <data>
         <display>
-        <title>深入浅出javascript(一)</title>
-        <pubTime>2016-05-09T06:56:43.000Z</pubTime>
+        <title>Emacs之路</title>
+        <pubTime>2017-05-07T09:03:13.000Z</pubTime>
         
-        <tag>javascript</tag>
+        <tag>Activiti</tag>
          
          
            
@@ -42,8 +63,30 @@
 
     
   <url>
+    <loc>http://ilovejava.cn/posts/4a17a004/</loc>
+    <lastmod>2017-09-06T08:00:24.353Z</lastmod>
+    <data>
+        <display>
+        <title>Activiti回顾</title>
+        <pubTime>2016-03-07T09:03:13.000Z</pubTime>
+        
+        <tag>Activiti</tag>
+         
+        <tag>java</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+    
+    
+    
+  <url>
     <loc>http://ilovejava.cn/posts/4a17a003/</loc>
-    <lastmod>2017-09-06T06:41:37.882Z</lastmod>
+    <lastmod>2017-09-06T07:43:14.106Z</lastmod>
     <data>
         <display>
         <title>最最常用的git command</title>
@@ -59,14 +102,14 @@
 
     
   <url>
-    <loc>http://ilovejava.cn/posts/4a17a004/</loc>
-    <lastmod>2017-09-06T06:34:41.757Z</lastmod>
+    <loc>http://ilovejava.cn/posts/172175ba/</loc>
+    <lastmod>2017-09-06T07:43:14.106Z</lastmod>
     <data>
         <display>
-        <title>Activiti回顾</title>
-        <pubTime>2016-03-07T09:03:13.000Z</pubTime>
+        <title>深入浅出javascript(一)</title>
+        <pubTime>2016-05-09T06:56:43.000Z</pubTime>
         
-        <tag>Activiti</tag>
+        <tag>javascript</tag>
          
          
            
@@ -74,8 +117,5 @@
     </data>
     </url>
 
-    
-    
-    
     
 </urlset>

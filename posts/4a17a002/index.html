@@ -6,7 +6,7 @@
   <title>用javascript开发一个俄罗斯方块 | 一些</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   
-    <meta name="keywords" content="javascript算法游戏" />
+    <meta name="keywords" content="javascript游戏算法" />
   
   
   
@@ -14,14 +14,14 @@
   
   
   <meta name="description" content="开发游戏不仅能学习算法，也能锻炼人的思维逻辑，提高我们的编程能力，充实我们的问题思考能力和问题解决思路。俄罗斯方块想必大家都玩过，他的游戏逻辑并不复杂，今天我们就来用大家都熟悉的javascript开发一款俄罗斯方块，后续我会写出更多关于游戏开发的文章。">
-<meta name="keywords" content="javascript,算法,游戏">
+<meta name="keywords" content="javascript,游戏,算法">
 <meta property="og:type" content="article">
 <meta property="og:title" content="用javascript开发一个俄罗斯方块">
 <meta property="og:url" content="http://ilovejava.cn/posts/4a17a002/index.html">
 <meta property="og:site_name" content="一些">
 <meta property="og:description" content="开发游戏不仅能学习算法，也能锻炼人的思维逻辑，提高我们的编程能力，充实我们的问题思考能力和问题解决思路。俄罗斯方块想必大家都玩过，他的游戏逻辑并不复杂，今天我们就来用大家都熟悉的javascript开发一款俄罗斯方块，后续我会写出更多关于游戏开发的文章。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-09-06T07:06:55.312Z">
+<meta property="og:updated_time" content="2017-09-11T01:08:49.907Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="用javascript开发一个俄罗斯方块">
 <meta name="twitter:description" content="开发游戏不仅能学习算法，也能锻炼人的思维逻辑，提高我们的编程能力，充实我们的问题思考能力和问题解决思路。俄罗斯方块想必大家都玩过，他的游戏逻辑并不复杂，今天我们就来用大家都熟悉的javascript开发一款俄罗斯方块，后续我会写出更多关于游戏开发的文章。">
@@ -145,7 +145,7 @@
     <div class="article-meta">
       
 	<a href="/posts/4a17a002/" class="article-date">
-	  <time datetime="2016-06-09T05:36:43.000Z" itemprop="datePublished">六月 9, 2016</time>
+	  <time datetime="2016-01-09T05:36:43.000Z" itemprop="datePublished">一月 9, 2016</time>
 	</a>
 
        
@@ -591,6 +591,9 @@ Square.prototype.rotate = <span class="function"><span class="keyword">function<
 <p><code>Square</code>是所有下落方块的父类，<code>data</code>是描述方块形状的数组，此数组中只有状态3，因为他只表述运动中的方块，当方块固定下来后，这个方块回销毁，数据将存入game.js中的<code>gameData</code>，<code>orgin</code>是方块当前位置的原点，有了这个原点，移动方块时，只需要移动这个原点，这是一种很巧妙的思维方式，<code>dataClass</code>是保存运动中每个小方块样式的数组，每个下落的方块能翻转4次，<code>dir</code>是保存当前翻转形态的<code>down</code>,<code>right</code>,<code>left</code>是下落方块移动对应的方法，<code>rotate</code>是下落方块翻转的方法。对应的can方法是判断方块的位置是否能做对应的操作。    </p>
 <h4 id="squareFactory-js"><a href="#squareFactory-js" class="headerlink" title="squareFactory.js"></a>squareFactory.js</h4><pre><code class="javascript"><span class="keyword">import</span> Square <span class="keyword">from</span> <span class="string">"./square.js"</span>;
 
+
+<span class="keyword">var</span> prot = <span class="built_in">Object</span>.create(Square.prototype)
+
 <span class="keyword">var</span> Square1 = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
 
     Square.call(<span class="keyword">this</span>)
@@ -619,7 +622,7 @@ Square.prototype.rotate = <span class="function"><span class="keyword">function<
         ]
     ]
 }
-Square1.prototype = <span class="keyword">new</span> Square()
+Square1.prototype = prot
 
 <span class="keyword">var</span> Square2 = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
 
@@ -649,7 +652,7 @@ Square1.prototype = <span class="keyword">new</span> Square()
         ]
     ]
 }
-Square2.prototype = <span class="keyword">new</span> Square()
+Square2.prototype = prot
 
 <span class="keyword">var</span> Square3 = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
 
@@ -679,7 +682,7 @@ Square2.prototype = <span class="keyword">new</span> Square()
         ]
     ]
 }
-Square3.prototype = <span class="keyword">new</span> Square()
+Square3.prototype = prot
 
 
 <span class="keyword">var</span> Square4 = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
@@ -710,7 +713,7 @@ Square3.prototype = <span class="keyword">new</span> Square()
         ]
     ]
 }
-Square4.prototype = <span class="keyword">new</span> Square()
+Square4.prototype = prot
 
 <span class="keyword">var</span> Square5 = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
 
@@ -740,7 +743,7 @@ Square4.prototype = <span class="keyword">new</span> Square()
         ]
     ]
 }
-Square5.prototype = <span class="keyword">new</span> Square()
+Square5.prototype = prot
 
 <span class="keyword">var</span> Square6 = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
 
@@ -770,7 +773,7 @@ Square5.prototype = <span class="keyword">new</span> Square()
         ]
     ]
 }
-Square6.prototype = <span class="keyword">new</span> Square()
+Square6.prototype = prot
 
 <span class="keyword">var</span> Square7 = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{
 
@@ -800,7 +803,7 @@ Square6.prototype = <span class="keyword">new</span> Square()
         ]
     ]
 }
-Square7.prototype = <span class="keyword">new</span> Square()
+Square7.prototype = prot
 
 
 <span class="keyword">var</span> SquareFactory = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{ }
@@ -1049,8 +1052,8 @@ SquareFactory.prototype.make = <span class="function"><span class="keyword">func
         <div class="my_post_copyright">
           <p><span>本文标题:</span><a href="/posts/4a17a002/">用javascript开发一个俄罗斯方块</a></p>
           <p><span>文章作者:</span><a href="/" title="叶青云的个人博客">叶青云</a></p>
-          <p><span>发布时间:</span>2016年6月9日 13:36</p>
-          <p><span>最后更新:</span>2016年6月9日 13:36</p>
+          <p><span>发布时间:</span>2016年1月9日 13:36</p>
+          <p><span>最后更新:</span>2016年1月9日 13:36</p>
           <p>
             <span>原始链接:</span>
             <a href="/posts/4a17a002/" title="用javascript开发一个俄罗斯方块">http://ilovejava.cn/posts/4a17a002/</a>
@@ -1119,11 +1122,15 @@ SquareFactory.prototype.make = <span class="function"><span class="keyword">func
     
 <nav id="article-nav">
   
-  
-    <a href="/posts/172175ba/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">下一篇</strong>
-      <div class="article-nav-title">深入浅出javascript(一)</div>
+    <a href="/posts/4a17a003/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          最最常用的git command
+        
+      </div>
     </a>
+  
   
 </nav>
 
